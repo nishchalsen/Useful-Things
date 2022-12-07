@@ -5,7 +5,7 @@ function awsp() {
 }
 
 function ini() {
-	local VALUE=$1
+    local VALUE=$1
     local OPTION=$2
 
     BASE_COMMAND="aws ec2 describe-instances --filter \"Name=tag:Name,Values=$VALUE\" --output text"
