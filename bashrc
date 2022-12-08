@@ -52,14 +52,14 @@ function insid() {
 
         eval "$BASE_COMMAND $FULL_FILTER --output text"
 
-        options=("1) SG" "2) EBS" "3) TAGS")
-        printf '%s\n' "${options[@]}"
+        choices=("1: SG" "2: EBS" "3: TAGS")
+        echo "${choices[@]}"
         read -p "Choose: " choosen_num
 
         case $choosen_num in
-        1) echo "SG:"; eval "$BASE_COMMAND --query 'Reservations[*].Instances[*].NetworkInterfaces[*].Groups[*]' --output table";;
-        2) echo "EBS:";  eval "$BASE_COMMAND --query 'Reservations[*].Instances[*].BlockDeviceMappings[*].Ebs.[VolumeId, Status, AttachTime]' --output table";;
-        3) echo "Tags:";  eval "$BASE_COMMAND  --query 'Reservations[*].Instances[*].Tags' --output table";;
+        1)  eval "$BASE_COMMAND --query 'Reservations[*].Instances[*].NetworkInterfaces[*].Groups[*]' --output table";;
+        2)  eval "$BASE_COMMAND --query 'Reservations[*].Instances[*].BlockDeviceMappings[*].Ebs.[VolumeId, Status, AttachTime]' --output table";;
+        3)  eval "$BASE_COMMAND  --query 'Reservations[*].Instances[*].Tags' --output table";;
         esac
 
     else
