@@ -66,3 +66,28 @@ function insid() {
         eval "$BASE_COMMAND $SHORT_FILTER --output text"
     fi
 }
+
+function insg() {
+    local VALUE=$1
+    local OPTION=$2
+
+    BASE_COMMAND="aws ec2 describe-security-groups --group-ids  $VALUE"
+    FILTER="--query 'SecurityGroups[*].[GroupId, Tags[?Key==\`Name\`]| [0].Value, VpcId]'"
+
+    if [ "$OPTION" = "-c" ]; then
+        eval "$BASE_COMMAND $FILTER --output text"
+
+        choices=("1: INGRESS" "2: ENGRESS" "3: TAGS")
+        echo "${choices[@]}"
+        read -p "Choose: " choosen_num
+
+        case $choosen_num in
+        1)  eval "$BASE_COMMAND --query 'SecurityGroups[*].IpPermissions[*]' --output table";;
+        2)  eval "$BASE_COMMAND --query 'SecurityGroups[*].IpPermissions[*]' --output table";;
+        3)  eval "$BASE_COMMAND  --query 'SecurityGroups[*].Tags' --output table";;
+        esac
+
+    else
+        eval "$BASE_COMMAND $FILTER --output text"
+    fi
+}
