@@ -91,3 +91,18 @@ function insg() {
         eval "$BASE_COMMAND $FILTER --output text"
     fi
 }
+
+function inebs() {
+    local VALUE=$1
+    local OPTION=$2
+
+    BASE_COMMAND="aws ec2 describe-volumes --volume-ids $VALUE"
+    SHORT_FILTER="--query 'Volumes[*].[VolumeId,AvailabilityZone,VolumeType,Size,State,SnapshotId,Tags[?Key==\`Name\`]| [0].Value]'"
+    FULL_FILTER="--query 'Volumes[*]'"
+
+    if [ "$OPTION" = "-f" ]; then
+        eval "$BASE_COMMAND $FULL_FILTER --output table"
+    else
+        eval "$BASE_COMMAND $SHORT_FILTER --output text"
+    fi
+}
