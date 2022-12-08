@@ -83,7 +83,7 @@ function insg() {
 
         case $choosen_num in
         1)  eval "$BASE_COMMAND --query 'SecurityGroups[*].IpPermissions[*]' --output table";;
-        2)  eval "$BASE_COMMAND --query 'SecurityGroups[*].IpPermissions[*]' --output table";;
+        2)  eval "$BASE_COMMAND --query 'SecurityGroups[*].IpPermissionsEgress[*]' --output table";;
         3)  eval "$BASE_COMMAND  --query 'SecurityGroups[*].Tags' --output table";;
         esac
 
