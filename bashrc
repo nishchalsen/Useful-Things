@@ -1,4 +1,10 @@
 alias ssm="aws ssm start-session --target $i"
+alias tf="terraform"
+alias tg="terragrunt"
+alias tgp="tg plan"
+alias tfp="tf plan -out=tf.plan"
+alias tfa="tf apply tf.plan"
+alias rb=". ~/.bashrc"
 
 function awsp() {
 	export AWS_PROFILE=$1
