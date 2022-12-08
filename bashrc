@@ -38,7 +38,7 @@ function ini() {
     fi
 }
 
-function insid() {
+function inid() {
     local VALUE=$1
     local OPTION=$2
 
