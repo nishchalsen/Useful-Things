@@ -31,3 +31,32 @@ function ini() {
         eval "$BASE_COMMAND $SHORT_FILTER"
     fi
 }
+
+function insid() {
+	local VALUE=$1
+    local OPTION=$2
+
+    BASE_COMMAND="aws ec2 describe-instances --instance-id $VALUE"
+    SHORT_FILTER="--query 'Reservations[*].Instances[*].[InstanceId,PrivateIpAddress,PublicIpAddress,State.Name,Tags[?Key==\`Name\`]| [0].Value]'"
+    FULL_FILTER="--query 'Reservations[*].Instances[*].[InstanceId,Placement.AvailabilityZone,InstanceType,Platform,LaunchTime,VpcId,PrivateIpAddress,PublicIpAddress,State.Name,Tags[?Key==\`Name\`]| [0].Value]'"
+
+    if [ "$OPTION" = "-f" ]; then
+        eval "$BASE_COMMAND $FULL_FILTER --output text"
+    elif [ "$OPTION" = "-c" ]; then
+
+        eval "$BASE_COMMAND $FULL_FILTER --output text"
+
+        options=("1) SG" "2) EBS" "3) TAGS")
+        printf '%s\n' "${options[@]}"
+        read -p "Choose: " choosen_num
+
+        case $choosen_num in
+        1) echo "SG:"; eval "$BASE_COMMAND --query 'Reservations[*].Instances[*].NetworkInterfaces[*].Groups[*]' --output table";;
+        2) echo "EBS:";  eval "$BASE_COMMAND --query 'Reservations[*].Instances[*].BlockDeviceMappings[*].Ebs.[VolumeId, Status, AttachTime]' --output table";;
+        3) echo "Tags:";  eval "$BASE_COMMAND  --query 'Reservations[*].Instances[*].Tags' --output table";;
+        esac
+
+    else
+        eval "$BASE_COMMAND $SHORT_FILTER --output text"
+    fi
+}
