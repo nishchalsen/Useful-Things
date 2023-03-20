@@ -21,7 +21,7 @@ function ini() {
     if [ "$OPTION" = "-f" ]; then
         eval "$BASE_COMMAND $FULL_FILTER"
     elif [ "$OPTION" = "-c" ]; then
-        INSTANCES=$(eval "$BASE_COMMAND $SHORT_FILTER")
+        INSTANCES=$(eval "$BASE_COMMAND $SHORT_FILTER \"Name=instance-state-name,Values=running\"")
         if [ -z "$INSTANCES" ]; then return; fi
 
         echo "$INSTANCES" | nl -w2
